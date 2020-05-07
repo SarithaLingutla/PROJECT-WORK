@@ -1,0 +1,76 @@
+import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { addToCart } from './actions/cart'
+import { toast } from "react-toastify";
+import axios from 'axios';
+
+ class Home extends Component{
+    
+
+    handleClick = (id)=>{
+        this.props.addToCart(id); 
+    }
+
+    render(){
+        let itemList = this.props.items.map(item=>{
+            return(
+                <div>
+                    <div class="container">
+                <div class="row ">
+                  <div class="col">
+                  <div className="card-body" key={item.id}>
+                        <div className="card-body pl-0">
+                            <img src={item.img} alt={item.title} style={{width:"200px",height:"200px"}}/>
+                            <span className="card-title">{item.title}</span>
+                            
+                            
+                        </div>
+                  </div>
+                
+                </div>
+                <div class="col">
+                <div className="card-content pt-5 pl-0">
+                            <p>{item.desc}</p>
+                            <p><b>Price: {item.price}$</b></p>
+                            <span to="/" className="btn-floating halfway-fab waves-effect waves-light red" 
+                            onClick={()=>{this.handleClick(item.id)
+                            toast("Item added to cart successfully");
+                        }
+                            }
+                            >
+                             
+                            <button><i className="material-icons">add</i></button></span>
+                            
+                        </div>
+     
+                      </div>
+                        </div>
+                 </div>
+                 </div>
+
+            )
+        })
+
+        return(
+            <div className="container">
+                <h3 className="center ">Our items</h3>
+                <div className="box">
+                    {itemList}
+                </div>
+            </div>
+        )
+    }
+}
+const mapStateToProps = (state)=>{
+    return {
+      items: state.items
+    }
+  }
+const mapDispatchToProps= (dispatch)=>{
+    
+    return{
+        addToCart: (id)=>{dispatch(addToCart(id))}
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Home)

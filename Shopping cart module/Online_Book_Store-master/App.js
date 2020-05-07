@@ -1,0 +1,50 @@
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
+import { Route, Switch, BrowserRouter } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.css";
+import Navbar from './components/Navbar'
+import Home from './components/Home'
+import Cart from './components/shoppingcart'
+import Login from './components/login';
+import Registration from './components/registration';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Home1 from './components/home1';
+
+class App extends Component {
+state = { isloggedIn: false };
+  setLogin = status => {
+    this.setState({ isloggedIn: status });
+  };
+  render(){
+  return (
+    <BrowserRouter>
+    <div className="App">
+    <Navbar/>
+              <ToastContainer/>
+                <Switch>
+                  
+                    <Route exact path="/" component={Home}/>
+                    <Route path="/shoppingcart" component={Cart}/>
+                    
+                    <Route
+            path="/login"
+            render={props => (
+              <Login
+                setLogin={this.setLogin}
+                isloggedIn={this.state.isloggedIn}
+                {...props}
+              />
+            )}
+          />
+                    <Route path='/registration' component={Registration}/>
+                    <Route path='/home1' component={Home1}/>
+                  </Switch>
+    </div>
+    </BrowserRouter>
+  );
+}
+}
+
+export default App;
